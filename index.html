@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rundown IHT Penyusunan Soal HOTS — SMKN 1 Maluku Tengah</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1117;
+    --surface: #161b27;
+    --surface2: #1e2535;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #f0f2f7;
+    --text2: #8b92a8;
+    --text3: #505770;
+    --teal: #2de8b0;
+    --teal-dim: rgba(45,232,176,0.12);
+    --teal-mid: rgba(45,232,176,0.25);
+    --blue: #4da6ff;
+    --blue-dim: rgba(77,166,255,0.12);
+    --purple: #b48aff;
+    --purple-dim: rgba(180,138,255,0.12);
+    --amber: #ffb347;
+    --amber-dim: rgba(255,179,71,0.12);
+    --red: #ff6b6b;
+    --now-glow: 0 0 0 1px rgba(45,232,176,0.4), 0 0 20px rgba(45,232,176,0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; position: relative; z-index: 1; }
+
+  /* ─── HEADER ─── */
+  .masthead {
+    margin-bottom: 2.5rem;
+    animation: fadeUp .6s ease both;
+  }
+  .masthead-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 14px;
+  }
+  .masthead-eyebrow::before {
+    content: ''; display: block; width: 24px; height: 1px; background: var(--teal);
+  }
+  .masthead h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .masthead h1 em {
+    font-style: italic;
+    color: var(--teal);
+  }
+  .masthead-meta {
+    display: flex; flex-wrap: wrap; gap: 18px;
+    font-size: 13px; color: var(--text2); margin-top: 14px;
+  }
+  .masthead-meta span { display: flex; align-items: center; gap: 6px; }
+  .masthead-meta svg { opacity: .6; }
+
+  /* ─── CLOCK BAR ─── */
+  .clock-bar {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 14px;
+    padding: 1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 2rem;
+    animation: fadeUp .6s .1s ease both;
+  }
+  .clock-display { display: flex; align-items: baseline; gap: 8px; }
+  .clock-time {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px; color: var(--text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
+  }
+  .clock-zone { font-size: 12px; color: var(--text3); font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+  .clock-info { font-size: 13px; color: var(--text2); }
+  .clock-info strong { color: var(--text); font-weight: 500; }
+  .now-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--teal-dim); border: 1px solid rgba(45,232,176,.3);
+    color: var(--teal); font-size: 12px; font-weight: 500;
+    padding: 4px 12px; border-radius: 20px;
+  }
+  .pulse-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--teal);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+  /* ─── STATS ROW ─── */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    margin-bottom: 2rem;
+    animation: fadeUp .6s .15s ease both;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: .9rem 1rem;
+    text-align: center;
+  }
+  .stat-card .val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px; color: var(--text); line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-card .lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .07em; }
+
+  /* ─── TABS ─── */
+  .day-tabs {
+    display: flex; gap: 10px; margin-bottom: 1.5rem;
+    animation: fadeUp .6s .2s ease both;
+  }
+  .day-tab {
+    flex: 1; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1rem 1.25rem;
+    transition: all .2s;
+    position: relative; overflow: hidden;
+  }
+  .day-tab::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--teal); transform: scaleX(0);
+    transition: transform .25s;
+  }
+  .day-tab:hover { border-color: var(--border2); background: var(--surface2); }
+  .day-tab.active { border-color: rgba(45,232,176,.35); background: var(--surface2); }
+  .day-tab.active::after { transform: scaleX(1); }
+  .day-tab .dt-num { font-size: 11px; color: var(--teal); font-weight: 500; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+  .day-tab .dt-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .day-tab .dt-theme { font-size: 12px; color: var(--text2); line-height: 1.4; }
+
+  /* ─── PROGRESS ─── */
+  .prog-wrap { background: rgba(255,255,255,.05); border-radius: 4px; height: 3px; margin-bottom: 2rem; overflow: hidden; }
+  .prog-fill { height: 3px; background: var(--teal); border-radius: 4px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+
+  /* ─── SECTION LABEL ─── */
+  .sec-label {
+    font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text3); margin: 2rem 0 .75rem; padding-left: 2px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ─── SESSION ITEMS ─── */
+  .session {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: border-color .2s, box-shadow .2s;
+    cursor: pointer;
+  }
+  .session:hover { border-color: var(--border2); }
+  .session.is-now {
+    border-color: rgba(45,232,176,.4);
+    box-shadow: var(--now-glow);
+  }
+  .session.is-done { opacity: .45; }
+  .session.is-break {
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--border);
+  }
+  .session.is-break:hover { border-color: var(--border2); }
+
+  .sess-head {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 1rem 1.25rem;
+  }
+  .sess-indicator {
+    display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 4px;
+  }
+  .sess-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    border: 1.5px solid currentColor;
+  }
+  .sess-dot.c-teal { color: var(--teal); background: var(--teal); }
+  .sess-dot.c-blue { color: var(--blue); background: var(--blue); }
+  .sess-dot.c-purple { color: var(--purple); background: var(--purple); }
+  .sess-dot.c-amber { color: var(--amber); background: var(--amber); }
+  .sess-dot.c-gray { color: var(--text3); background: var(--text3); }
+  .sess-vline { width: 1px; background: var(--border); flex: 1; min-height: 14px; margin: 4px 0; }
+
+  .sess-time {
+    font-size: 12px; font-weight: 500; color: var(--text3);
+    min-width: 96px; flex-shrink: 0; padding-top: 2px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+  }
+  .sess-body { flex: 1; min-width: 0; }
+  .sess-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+  .sess-title { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.4; }
+  .sess-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 8px; }
+  .sess-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px;
+    border: 1px solid transparent;
+  }
+  .badge svg { width: 11px; height: 11px; flex-shrink: 0; }
+  .badge-teal { background: var(--teal-dim); border-color: rgba(45,232,176,.2); color: var(--teal); }
+  .badge-blue { background: var(--blue-dim); border-color: rgba(77,166,255,.2); color: var(--blue); }
+  .badge-purple { background: var(--purple-dim); border-color: rgba(180,138,255,.2); color: var(--purple); }
+  .badge-amber { background: var(--amber-dim); border-color: rgba(255,179,71,.2); color: var(--amber); }
+  .badge-gray { background: rgba(255,255,255,.05); border-color: var(--border2); color: var(--text2); }
+  .badge-now { background: var(--teal); color: #0e1117; border-color: var(--teal); font-weight: 600; }
+
+  .sess-dur {
+    font-size: 11px; color: var(--text3); flex-shrink: 0; padding-top: 3px;
+    white-space: nowrap;
+  }
+  .expand-chevron {
+    width: 18px; height: 18px; color: var(--text3); flex-shrink: 0;
+    transition: transform .25s; margin-top: 1px;
+  }
+  .session.open .expand-chevron { transform: rotate(180deg); }
+
+  .sess-expand {
+    max-height: 0; overflow: hidden;
+    transition: max-height .3s cubic-bezier(.4,0,.2,1);
+    border-top: 0px solid var(--border);
+  }
+  .session.open .sess-expand {
+    max-height: 200px;
+    border-top-width: 1px;
+  }
+  .sess-expand-inner { padding: .9rem 1.25rem 1rem 3.8rem; }
+  .expand-label { font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--text3); margin-bottom: 5px; }
+  .expand-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+  /* ─── HIDDEN DAY ─── */
+  .day-panel { display: none; }
+  .day-panel.active { display: block; animation: fadeUp .3s ease both; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    margin-top: 3rem; text-align: center;
+    font-size: 12px; color: var(--text3);
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 520px) {
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .sess-time { min-width: 80px; font-size: 11px; }
+    .sess-expand-inner { padding-left: 1.25rem; }
+    .clock-time { font-size: 28px; }
+    .masthead h1 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="masthead-eyebrow">SMK Negeri 1 Maluku Tengah</div>
+    <h1>In House Training<br><em>Penyusunan Soal HOTS</em></h1>
+    <div class="masthead-meta">
+      <span>
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        11 – 12 Mei 2026
+      </span>
+      <span>
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+        Ruang Komputer SMKN 1 Maluku Tengah
+      </span>
+      <span>
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Seluruh Guru
+      </span>
+    </div>
+  </div>
+
+  <!-- CLOCK BAR -->
+  <div class="clock-bar">
+    <div class="clock-display">
+      <div class="clock-time" id="clk">--:--:--</div>
+      <div class="clock-zone">WIT</div>
+    </div>
+    <div class="clock-info">
+      <span id="clk-day">—</span> &nbsp;·&nbsp; Sesi tersisa hari ini: <strong id="sesi-rem">—</strong>
+    </div>
+    <div class="now-badge" id="now-badge" style="display:none">
+      <div class="pulse-dot"></div>
+      <span id="now-label">Berlangsung</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card"><div class="val">2</div><div class="lbl">Hari</div></div>
+    <div class="stat-card"><div class="val">4</div><div class="lbl">Materi</div></div>
+    <div class="stat-card"><div class="val">1</div><div class="lbl">Workshop</div></div>
+    <div class="stat-card"><div class="val" id="total-dur">13j</div><div class="lbl">Total Durasi</div></div>
+  </div>
+
+  <!-- DAY TABS -->
+  <div class="day-tabs">
+    <div class="day-tab active" id="tab1" onclick="switchDay(1)">
+      <div class="dt-num">Hari Pertama · Senin 11 Mei</div>
+      <div class="dt-title">Fondasi HOTS</div>
+      <div class="dt-theme">Memahami Pembelajaran Mendalam & Fondasi HOTS</div>
+    </div>
+    <div class="day-tab" id="tab2" onclick="switchDay(2)">
+      <div class="dt-num">Hari Kedua · Selasa 12 Mei</div>
+      <div class="dt-title">Praktik HOTS</div>
+      <div class="dt-theme">Penyusunan Soal Berorientasi Pembelajaran Mendalam</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="prog-wrap"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+
+  <!-- ════ DAY 1 ════ -->
+  <div class="day-panel active" id="day1">
+    <div class="sec-label">Pembukaan</div>
+
+    <div class="session" id="d1s0" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-gray"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">08.00<br>08.30</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Registrasi Peserta</div>
+            <span class="sess-dur">30 mnt</span>
+          </div>
+          <div class="sess-badges">
+            <span class="badge badge-gray">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Tim Penyelenggara
+            </span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Keterangan</div>
+          <div class="expand-text">Peserta hadir dan bersiap di Ruang Komputer sebelum acara pembukaan dimulai.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session" id="d1s1" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-teal"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">08.30<br>09.00</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Pembukaan & Sambutan Kepala Sekolah</div>
+            <span class="sess-dur">30 mnt</span>
+          </div>
+          <div class="sess-badges">
+            <span class="badge badge-teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+              Kepala Sekolah
+            </span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Keterangan</div>
+          <div class="expand-text">Sambutan Kepala Sekolah sekaligus membuka kegiatan IHT secara resmi.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Sesi Materi</div>
+
+    <div class="session" id="d1s2" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-purple"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">09.00<br>10.30</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Materi 1</div>
+            <span class="sess-dur">90 mnt</span>
+          </div>
+          <div class="sess-desc">Konsep Pembelajaran Mendalam (Deep Learning) dalam Kurikulum Merdeka: Prinsip, Karakteristik, dan Implikasinya terhadap Penilaian</div>
+          <div class="sess-badges">
+            <span class="badge badge-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Prof. Dr. T. G. Ratumanan, M.Pd.
+            </span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Topik utama</div>
+          <div class="expand-text">Prinsip & karakteristik pembelajaran mendalam, implikasi terhadap desain penilaian dalam Kurikulum Merdeka.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session is-break" id="d1s3">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-amber"></div></div>
+        <div class="sess-time">10.30<br>10.45</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Coffee Break</div>
+            <span class="sess-dur">15 mnt</span>
+          </div>
+          <div class="sess-badges">
+            <span class="badge badge-amber">Tim Penyelenggara</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session" id="d1s4" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-purple"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">10.45<br>12.15</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Materi 2</div>
+            <span class="sess-dur">90 mnt</span>
+          </div>
+          <div class="sess-desc">Taksonomi Bloom Revisi & Level Kognitif HOTS: Keterkaitan Dimensi Berpikir Tingkat Tinggi dengan Pembelajaran Mendalam</div>
+          <div class="sess-badges">
+            <span class="badge badge-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Prof. Dr. T. G. Ratumanan, M.Pd.
+            </span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Topik utama</div>
+          <div class="expand-text">Level C4–C6 Taksonomi Bloom Revisi, cara mengidentifikasi soal HOTS, dan keterkaitannya dengan pembelajaran mendalam.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session is-break" id="d1s5">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-amber"></div></div>
+        <div class="sess-time">12.15<br>13.15</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">ISHOMA</div>
+            <span class="sess-dur">60 mnt</span>
+          </div>
+          <div class="sess-badges">
+            <span class="badge badge-amber">Istirahat · Sholat · Makan</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session" id="d1s6" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-purple"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">13.15<br>14.45</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Materi 3</div>
+            <span class="sess-dur">90 mnt</span>
+          </div>
+          <div class="sess-desc">Analisis & Bedah Soal HOTS: Contoh dan Non-Contoh Soal yang Mendukung Pemahaman Bermakna (Meaningful Understanding)</div>
+          <div class="sess-badges">
+            <span class="badge badge-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Prof. Dr. T. G. Ratumanan, M.Pd.
+            </span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Topik utama</div>
+          <div class="expand-text">Peserta menganalisis contoh & non-contoh soal HOTS, mendiskusikan kriteria soal yang mendukung pemahaman bermakna.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Penutupan Hari Pertama</div>
+
+    <div class="session" id="d1s7" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-blue"></div></div>
+        <div class="sess-time">14.45<br>15.00</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Refleksi & Penutupan Hari Pertama</div>
+            <span class="sess-dur">15 mnt</span>
+          </div>
+          <div class="sess-badges">
+            <span class="badge badge-blue">Moderator</span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Keterangan</div>
+          <div class="expand-text">Refleksi bersama atas materi hari pertama dan informasi jadwal hari kedua.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ DAY 2 ════ -->
+  <div class="day-panel" id="day2">
+    <div class="sec-label">Pembukaan Hari Kedua</div>
+
+    <div class="session" id="d2s0" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-blue"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">08.00<br>08.15</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Review Materi Hari Pertama</div>
+            <span class="sess-dur">15 mnt</span>
+          </div>
+          <div class="sess-badges">
+            <span class="badge badge-blue">Moderator</span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Keterangan</div>
+          <div class="expand-text">Kilas balik materi hari pertama sebagai jembatan menuju sesi praktik hari kedua.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Sesi Materi & Workshop</div>
+
+    <div class="session" id="d2s1" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-purple"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">08.15<br>09.45</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Materi 4</div>
+            <span class="sess-dur">90 mnt</span>
+          </div>
+          <div class="sess-desc">Strategi & Teknik Penyusunan Soal HOTS (Pilihan Ganda, Uraian, & Berbasis Kasus) yang Mengukur Kompetensi Berpikir Kritis, Kreatif, dan Pemecahan Masalah</div>
+          <div class="sess-badges">
+            <span class="badge badge-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Prof. Dr. T. G. Ratumanan, M.Pd.
+            </span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Topik utama</div>
+          <div class="expand-text">Teknik menulis stem soal, stimulus kontekstual, dan rubrik penilaian untuk berbagai bentuk soal HOTS.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session is-break" id="d2s2">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-amber"></div></div>
+        <div class="sess-time">09.45<br>10.00</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Coffee Break</div>
+            <span class="sess-dur">15 mnt</span>
+          </div>
+          <div class="sess-badges">
+            <span class="badge badge-amber">Tim Penyelenggara</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session" id="d2s3" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-purple"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">10.00<br>12.00</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Workshop</div>
+            <span class="sess-dur">120 mnt</span>
+          </div>
+          <div class="sess-desc">Praktik Penyusunan Soal HOTS per Mata Pelajaran Berbasis Pembelajaran Mendalam — Mengintegrasikan Stimulus Kontekstual & Keterampilan Abad 21</div>
+          <div class="sess-badges">
+            <span class="badge badge-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Prof. Dr. T. G. Ratumanan, M.Pd.
+            </span>
+            <span class="badge badge-gray">Tim Penyelenggara</span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Keterangan</div>
+          <div class="expand-text">Guru bekerja dalam kelompok per mata pelajaran untuk menyusun soal HOTS dengan stimulus kontekstual dan integrasi keterampilan abad 21.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session is-break" id="d2s4">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-amber"></div></div>
+        <div class="sess-time">12.00<br>13.00</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">ISHOMA</div>
+            <span class="sess-dur">60 mnt</span>
+          </div>
+          <div class="sess-badges">
+            <span class="badge badge-amber">Istirahat · Sholat · Makan</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session" id="d2s5" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-purple"></div><div class="sess-vline"></div></div>
+        <div class="sess-time">13.00<br>14.30</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Presentasi Hasil Workshop & Peer Review</div>
+            <span class="sess-dur">90 mnt</span>
+          </div>
+          <div class="sess-desc">Presentasi Hasil Workshop, Peer Review & Validasi Soal HOTS</div>
+          <div class="sess-badges">
+            <span class="badge badge-purple">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              Prof. Dr. T. G. Ratumanan, M.Pd.
+            </span>
+            <span class="badge badge-gray">Peserta</span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Keterangan</div>
+          <div class="expand-text">Tiap kelompok mempresentasikan soal yang disusun, dilanjutkan peer review dan validasi bersama narasumber.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Penutupan Resmi</div>
+
+    <div class="session" id="d2s6" onclick="toggleSess(this)">
+      <div class="sess-head">
+        <div class="sess-indicator"><div class="sess-dot c-teal"></div></div>
+        <div class="sess-time">14.30<br>15.00</div>
+        <div class="sess-body">
+          <div class="sess-title-row">
+            <div class="sess-title">Evaluasi, RTL & Penutupan Resmi</div>
+            <span class="sess-dur">30 mnt</span>
+          </div>
+          <div class="sess-desc">Evaluasi kegiatan, Rencana Tindak Lanjut Implementasi Pembelajaran Mendalam & Penutupan Resmi</div>
+          <div class="sess-badges">
+            <span class="badge badge-teal">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+              Kepala Sekolah
+            </span>
+            <span class="badge badge-gray">Tim Penyelenggara</span>
+          </div>
+        </div>
+        <svg class="expand-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="sess-expand">
+        <div class="sess-expand-inner">
+          <div class="expand-label">Keterangan</div>
+          <div class="expand-text">Evaluasi menyeluruh dua hari IHT, penyampaian rencana tindak lanjut oleh Wakasek Kurikulum, dan penutupan resmi oleh Kepala Sekolah.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    SMK Negeri 1 Maluku Tengah &nbsp;·&nbsp; Maluku Tengah, Mei 2026
+  </div>
+</div>
+
+<script>
+var currentDay = 1;
+
+var schedule = {
+  1: [
+    {id:'d1s0',start:[8,0],end:[8,30]},
+    {id:'d1s1',start:[8,30],end:[9,0]},
+    {id:'d1s2',start:[9,0],end:[10,30]},
+    {id:'d1s3',start:[10,30],end:[10,45]},
+    {id:'d1s4',start:[10,45],end:[12,15]},
+    {id:'d1s5',start:[12,15],end:[13,15]},
+    {id:'d1s6',start:[13,15],end:[14,45]},
+    {id:'d1s7',start:[14,45],end:[15,0]}
+  ],
+  2: [
+    {id:'d2s0',start:[8,0],end:[8,15]},
+    {id:'d2s1',start:[8,15],end:[9,45]},
+    {id:'d2s2',start:[9,45],end:[10,0]},
+    {id:'d2s3',start:[10,0],end:[12,0]},
+    {id:'d2s4',start:[12,0],end:[13,0]},
+    {id:'d2s5',start:[13,0],end:[14,30]},
+    {id:'d2s6',start:[14,30],end:[15,0]}
+  ]
+};
+
+var days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+
+function toMin(h,m){return h*60+m;}
+function pad(n){return String(n).padStart(2,'0');}
+
+function toggleSess(el){
+  el.classList.toggle('open');
+}
+
+function switchDay(d){
+  currentDay = d;
+  document.getElementById('day1').classList.toggle('active', d===1);
+  document.getElementById('day2').classList.toggle('active', d===2);
+  document.getElementById('tab1').classList.toggle('active', d===1);
+  document.getElementById('tab2').classList.toggle('active', d===2);
+}
+
+function tick(){
+  var now = new Date();
+  var h=now.getHours(), m=now.getMinutes(), s=now.getSeconds();
+  document.getElementById('clk').textContent = pad(h)+':'+pad(m)+':'+pad(s);
+  document.getElementById('clk-day').textContent = days[now.getDay()] + ', ' + now.getDate() + ' Mei 2026';
+
+  var nowMin = toMin(h,m);
+  var dayStart = toMin(8,0), dayEnd = toMin(15,0);
+  var pct = Math.min(100,Math.max(0,Math.round((nowMin-dayStart)/(dayEnd-dayStart)*100)));
+  document.getElementById('prog').style.width = pct+'%';
+
+  var remaining = 0;
+  var nowLabel = null;
+
+  [1,2].forEach(function(day){
+    schedule[day].forEach(function(s){
+      var el = document.getElementById(s.id);
+      if(!el) return;
+      var sMin = toMin(s.start[0],s.start[1]);
+      var eMin = toMin(s.end[0],s.end[1]);
+
+      var existBadge = el.querySelector('.badge-now');
+      if(existBadge) existBadge.remove();
+      el.classList.remove('is-now','is-done');
+
+      if(nowMin >= sMin && nowMin < eMin){
+        el.classList.add('is-now');
+        var titleEl = el.querySelector('.sess-title');
+        if(titleEl) nowLabel = titleEl.textContent;
+        var badgesEl = el.querySelector('.sess-badges');
+        if(badgesEl){
+          var nb = document.createElement('span');
+          nb.className = 'badge badge-now';
+          nb.textContent = 'Berlangsung';
+          badgesEl.insertBefore(nb, badgesEl.firstChild);
+        }
+        if(day===currentDay) remaining = 0;
+      } else if(nowMin >= eMin){
+        el.classList.add('is-done');
+      } else {
+        if(day===currentDay) remaining++;
+      }
+    });
+  });
+
+  var nb = document.getElementById('now-badge');
+  var nl = document.getElementById('now-label');
+  if(nowLabel){
+    nb.style.display = 'inline-flex';
+    nl.textContent = nowLabel;
+  } else {
+    nb.style.display = 'none';
+  }
+  document.getElementById('sesi-rem').textContent = remaining;
+}
+
+setInterval(tick, 1000);
+tick();
+</script>
+</body>
+</html>
